@@ -1,15 +1,22 @@
 
 
 <h1>Posts</h1>
-
-<div id="posts">
+<%= link_to "New post", new_post_path, class:"btn btn-outline-primary" %>
+<div id="posts" class="row">
   <% @posts.each do |post| %>
-    <%= render post %>
-    <p>
-      <%= link_to "Show this post", post %>
-    </p>
+    <div class="col-lg-3 col-md-5 col-sm-11 m-2">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><%= post.title %></h5>
+          <p class="card-text"><%= post.conntent %></p>
+          <%= link_to "View Post", post, class:"btn btn-info " %>
+        </div>
+      </div>
+
+    </div>
+    
  
   <% end %>
 </div>
 
-<%= link_to "New post", new_post_path %>
+
