@@ -1,3 +1,4 @@
+<div class="col-l-6">
 <%= form_with(model: post) do |form| %>
   <% if post.errors.any? %>
     <div style="color: red">
@@ -12,13 +13,13 @@
   <% end %>
 
   <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
+    <%= form.label :title, style: "display: block", class: "form-lable" %>
+    <%= form.text_field :title, class: "form-control" %>
   </div>
 
   <div>
-    <%= form.label :conntent, style: "display: block" %>
-    <%= form.text_field :conntent %>
+    <%= form.label :conntent, style: "display: block", class: "form-lable" %>
+    <%= form.text_field :conntent, class: "form-control" %>
   </div>
 
   <div>
@@ -30,3 +31,5 @@
     <%= form.submit %>
   </div>
 <% end %>
+
+</div>

@@ -5,7 +5,7 @@ class PostsController < ApplicationController
 
   # GET /posts or /posts.json
   def index
-    @posts = Post.all
+    @posts = Post.all.order('created_at DESC')
   end
 
   # GET /posts/1 or /posts/1.json
@@ -27,8 +27,8 @@ class PostsController < ApplicationController
     redirect_to posts_path, notice: "Not authorize to this post" if @post.nil?
   end
 
-  def my_post
-    @posts = current_user.post.find_by(id: params[:id])
+  def myposts
+    @posts = current_user.posts
   end
   # POST /posts or /posts.json
   def create

@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
-
+  get 'myposts', to: 'posts#myposts'
   resources :posts do 
+    
     resources :comments
   end
   devise_for :users
-  get 'posts/mypost', to: 'posts#my_post'
+  
   # get 'home/index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

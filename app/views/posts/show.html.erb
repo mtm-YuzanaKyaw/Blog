@@ -9,3 +9,9 @@
 
   <%= button_to "Destroy this post", @post, method: :delete %>
 </div>
+
+<h3> Comments </h3>
+<% unless @post.comments == nil %>
+  <%= render @post.comments %>
+<% end %>
+<%= render 'comments/form' %>

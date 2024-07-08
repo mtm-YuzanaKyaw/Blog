@@ -13,6 +13,9 @@
             <%= link_to "Posts", posts_path, class: "nav-link" %>
         </li>
         <% if user_signed_in? %>
+            <li>
+              <%= link_to "My Posts", myposts_path, class: "nav-link" %>
+            </li>
             <li class="nav-item">
                 <%= link_to "Edit Profile", edit_user_registration_path, class: "nav-link" %>
             </li>
@@ -26,6 +29,7 @@
             <li class="nav-item">
                 <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>
             </li>
+            
         <% end %>
         
       </ul>
