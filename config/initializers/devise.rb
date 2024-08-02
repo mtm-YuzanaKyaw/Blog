@@ -305,8 +305,7 @@ Devise.setup do |config|
   config.responder.error_status = :unprocessable_entity
   config.responder.redirect_status = :see_other
 
-  google_client_id = '518703441732-am4hmshlbv2kgpvlkcn4vqpje7uan8vv.apps.googleusercontent.com'
-  google_client_secret = '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'
+
 
   config.omniauth :google_oauth2, google_client_id, google_client_secret,
   {
