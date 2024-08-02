@@ -1,20 +1,20 @@
 <h1>New event</h1>
 
-<%= form_with url: create_event_path(@calendar_id), method: :post, local: true do |form| %> 
+<%= form_with model: @event, url: create_event_path(@calendar_id), method: :post, local: true do |form| %> 
 
   <div>
-    <%= form.label :summary, style: "display: block" %>
-    <%= form.text_field :summary %>
+    <%= form.label :summary, style: "display: block", class:"form-label" %>
+    <%= form.text_field :summary, class:"form-control m-2" %>
   </div>
   
   <div class="form-group">
-   <%= form.label :start, "Date:" %>
-   <%= form.datetime_select :start %>  
+   <%= form.label :start, "Start Date:", class:"form-label" %>
+   <%= form.datetime_select :start, class:"form-control m-2" %>  
  </div>
 
  <div class="form-group">
-   <%= form.label :end, "Date:" %>
-   <%= form.datetime_select :end %> 
+   <%= form.label :end, "End Date:", class:"form-label" %>
+   <%= form.datetime_select :end, class:"form-control m-2" %> 
  </div>
 
   <div>
@@ -26,7 +26,7 @@
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit class:"btn btn-primary m-2" %>
   </div>
 <% end %>
 

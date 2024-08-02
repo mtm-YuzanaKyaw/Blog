@@ -13,12 +13,12 @@
     <li>Start time : <%= event.start.date_time %></li>
     <li>End time : <%= event.end.date_time %>    </li>
     <%= @calendar_id %> 
-    <p class='d-flex'>
-      <%= link_to "Show event", calendars_path, class: 'btn btn-secondary mx-2' %>
-      <%= link_to "Update event", calendar_event_edit_path(params[:calendar_id],event.id) , class: 'btn btn-info mx-2' %>
+    <div class='d-flex'>
+      <%= link_to "Show event", calendars_path, class: 'btn btn-secondary m-2' %>
+      <%= link_to "Update event", calendar_event_edit_path(params[:calendar_id],event.id) , class: 'btn btn-info m-2' %>
       <%= button_to "Delete event", calendar_event_destroy_path(params[:calendar_id],event.id), class: 'btn btn-danger m-2',method: :delete %>
 
-    </p><hr>
+    </div><hr>
   <% end %>
 
 </div>
