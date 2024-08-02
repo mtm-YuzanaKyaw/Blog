@@ -1,6 +1,9 @@
+
 class PostsController < ApplicationController
+  require 'csv'
+
   before_action :set_post, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, except: [ :index, :show ]
+  before_action :authenticate_user!, except: [ :index ]
   before_action :correct_user, only: [ :edit, :update, :destroy ]
 
   # GET /posts or /posts.json
@@ -8,8 +11,60 @@ class PostsController < ApplicationController
     @posts = Post.all.order('created_at DESC')
   end
 
+  def export_csv
+    @posts = Post.all
+
+    respond_to do |format|
+      format.csv do
+        send_data generate_csv(@posts), filename: "posts-#{Date.today}.csv"
+      end
+    end
+  end
+
+  def import_csv
+    # Display the CSV upload form
+  end
+
+  def import_csv_process
+    file = params[:file]
+
+    if file.present?
+      # import with simple way
+      CSV.foreach(file.path, headers: true) do |row|
+
+        id = row['id'].to_i
+        action = row['action'].to_s.downcase
+        case action
+
+        when 'create'
+          post_info = { title: row['title'],
+          conntent: row['conntent'], user_id: row['user_id'], created_at: row['created_at'] }
+          Post.create!(post_info)
+        when 'update'
+          post_info = { title: row['title'],
+          conntent: row['conntent'], created_at: row['created_at'] }
+          post = Post.find_by(id: id)
+
+          post.update(post_info) if post
+        when 'delete'
+          post = Post.find_by(id: id)
+          byebug
+          post.destroy if post
+        else
+          puts 'invalid action'
+        end
+      end
+
+      redirect_to posts_path, notice: 'CSV imported successfully.'
+    else
+      redirect_to import_csv_posts_path, notice: 'Please select a file to import.'
+    end
+  end
+
   # GET /posts/1 or /posts/1.json
   def show
+    @post = Post.find(params[:id])
+    # @comment = Comment.new
   end
 
   # GET /posts/new
@@ -32,7 +87,8 @@ class PostsController < ApplicationController
   end
   # POST /posts or /posts.json
   def create
-    @post = Post.new(post_params)
+    @post = current_user.posts.build(post_params)
+    # @post = Post.new(post_params)
 
     respond_to do |format|
       if @post.save
@@ -77,5 +133,15 @@ class PostsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def post_params
       params.require(:post).permit(:title, :conntent, :user_id)
+    end
+
+    def generate_csv(posts)
+      CSV.generate(headers: true) do |csv|
+        csv << ['id','title', 'conntent', 'user_id', 'created_at']
+
+        posts.each do |post|
+          csv << [post.id,post.title, post.conntent, post.user_id , post.created_at]
+        end
+      end
     end
 end

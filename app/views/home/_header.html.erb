@@ -16,6 +16,9 @@
             <li>
               <%= link_to "My Posts", myposts_path, class: "nav-link" %>
             </li>
+            <li>
+              <%= link_to "Calendars", calendars_path, class: "nav-link" %>
+            </li>
             <li class="nav-item">
                 <%= link_to "Edit Profile", edit_user_registration_path, class: "nav-link" %>
             </li>
@@ -23,6 +26,10 @@
                 <%= button_to "Sign out", destroy_user_session_path, method: :delete ,class: "nav-link" %>
             </li>
         <% else %>
+            
+            <li class='nav-item'>
+              <%= button_to 'Login with Google', user_google_oauth2_omniauth_authorize_path, method: :post, :data => {turbo: "false"},class: 'nav-link' %>
+            </li> 
             <li class="nav-item">
                 <%= link_to "Sign in", new_user_session_path, class: "nav-link" %>
             </li>

@@ -1,10 +1,11 @@
 class CommentsController < ApplicationController
-  before_action :set_comment, only: %i[ show edit update destroy ]
+
+  # before_action :authenticate_user!
 
   # GET /comments or /comments.json
   def index
-    @comments = Comment.joins(:users).where(comments: {user_id: user.id})
-    
+    @comments = Comment.all
+
   end
 
   # GET /comments/1 or /comments/1.json
@@ -22,9 +23,10 @@ class CommentsController < ApplicationController
 
   # POST /comments or /comments.json
   def create
-    @post = Post.find_by(id: params[:post_id])
-    @comment = Comment.new(comment_params)
-    
+
+    @post = Post.find(params[:post_id])
+    @comment = @post.comments.build(comment_params)
+    @comment.user = current_user
 
     respond_to do |format|
       if @comment.save
@@ -41,7 +43,7 @@ class CommentsController < ApplicationController
   def update
     respond_to do |format|
       if @comment.update(comment_params)
-        format.html { redirect_to comment_url(@comment), notice: "Comment was successfully updated." }
+        format.html { redirect_to post_path(@post), notice: "Comment was successfully updated." }
         format.json { render :show, status: :ok, location: @comment }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -55,7 +57,7 @@ class CommentsController < ApplicationController
     @comment.destroy!
 
     respond_to do |format|
-      format.html { redirect_to comments_url, notice: "Comment was successfully destroyed." }
+      format.html { redirect_to post_path(@post), notice: "Comment was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -68,6 +70,6 @@ class CommentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def comment_params
-      params.require(:comment).permit(:comment, :post_id, :user_id)
+      params.require(:comment).permit(:comment, :user_id)
     end
 end

@@ -1,0 +1,9 @@
+<h1>Calendars</h1>
+
+<% @calendars.each do |calendar| %>
+    <li><%=calendar.summary %> || (<%=calendar.id %>)  
+    <p>
+      <%= link_to "Create new event", new_event_path(calendar.id), class: "btn btn-primary m-2" %> 
+      <%= link_to "Show events", calendar_events_path(calendar.id), class: "btn btn-primary m-2" %>
+    </p></li><hr>
+<% end %>

@@ -1,0 +1,35 @@
+<h1>Editing event</h1>
+
+<%= form_with model: @event, url: calendar_event_update_path(@calendar_id,@event_id), method: :put, local: true do |form| %> 
+
+  <div>
+    <%= form.label :summary, style: "display: block" %>
+    <%= form.text_field :summary %>
+  </div>
+  
+  <div class="form-group">
+   <%= form.label :start, "Date:" %>
+   <%= form.datetime_select :start %>  
+ </div>
+
+ <div class="form-group">
+   <%= form.label :end, "Date:" %>
+   <%= form.datetime_select :end %> 
+ </div>
+
+  <div>
+    <%= form.hidden_field :calendar_id %>
+  </div>
+
+  <div>
+    <%= form.hidden_field :user_id %>
+  </div>
+
+  <div>
+    <%= form.submit "Update" %>
+  </div>
+<% end %>
+
+<br>
+
+

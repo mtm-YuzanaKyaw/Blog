@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_05_094749) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_01_044304) do
   create_table "comments", force: :cascade do |t|
     t.text "comment"
     t.integer "post_id", null: false
@@ -19,6 +19,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_05_094749) do
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "summary"
+    t.string "google_event_id"
+    t.string "calendar_id"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "start"
+    t.datetime "end"
+    t.index ["user_id"], name: "index_events_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -38,11 +50,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_05_094749) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "google_token"
+    t.string "google_refresh_token"
+    t.string "name"
+    t.string "uid"
+    t.string "provider"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "events", "users"
   add_foreign_key "posts", "users"
 end
