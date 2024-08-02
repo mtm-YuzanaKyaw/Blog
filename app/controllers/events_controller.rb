@@ -113,8 +113,8 @@ class EventsController < ApplicationController
       "web" => {
         "access_token" => current_user.google_token,
         "refresh_token" => current_user.google_refresh_token,
-        "client_id" => "518703441732-am4hmshlbv2kgpvlkcn4vqpje7uan8vv.apps.googleusercontent.com",
-        "client_secret" => "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"
+        "client_id" => "",
+        "client_secret" => ""
       }
     })
   end
