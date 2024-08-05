@@ -3,9 +3,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user = User.from_google(request.env["omniauth.auth"])
 
     if @user.present?
-      @user.google_token = auth.credentials.token
-      @user.google_refresh_token = auth.credentials.refresh_token
-      @user.save
 
       sign_out_all_scopes
       flash[:notice] = t 'devise.omniauth_callbacks.success', kind: 'Google'
