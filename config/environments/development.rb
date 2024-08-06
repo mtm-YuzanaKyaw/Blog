@@ -77,15 +77,19 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   # config.action_controller.perform_caching = false
 
+  config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_options = {from: 'yuzanakyaw160@gmail.com'}
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-  address:             'smtp.gmail.com',
-  port:                 587,
-  user_name:            "yuzanakyaw160@gmail.com",
-  password:             "ijjp gwkq paoh fxdy",
-  authentication:       'plain',
-  enable_starttls_auto: true }
+  # config.action_mailer.raise_delivery_errors = true
+
+  config.action_mailer.raise_delivery_errors = false
+
+  # config.action_mailer.default_options = {from: 'yuzanakyaw160@gmail.com'}
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  # address:             'smtp.gmail.com',
+  # port:                 587,
+  # user_name:            "yuzanakyaw160@gmail.com",
+  # password:             "ijjp gwkq paoh fxdy",
+  # authentication:       'plain',
+  # enable_starttls_auto: true }
 end

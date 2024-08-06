@@ -35,4 +35,8 @@ Rails.application.routes.draw do
   root "home#index"
   # get 'auth/:provider/callback', to: 'sessions#googleAuth'
   # get 'auth/failure', to: redirect('/')
+
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
 end
