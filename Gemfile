@@ -51,6 +51,7 @@ gem 'googleauth'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'google-api-client', require: 'google/apis/calendar_v3'
 gem 'omniauth-google-oauth2'
+gem 'sidekiq'
 
 
 
