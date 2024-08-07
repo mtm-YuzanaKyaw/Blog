@@ -61,8 +61,10 @@ class PostsController < ApplicationController
           post.update(post_info) if post
         when 'delete'
           post = Post.find_by(id: id)
-          byebug
-          post.destroy if post
+          if post
+            post.comments.destroy_all
+            post.destroy
+          end
         else
           puts 'invalid action'
         end

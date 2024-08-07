@@ -2,7 +2,7 @@ require 'csv'
 
 class Post < ApplicationRecord
   belongs_to :user
-  has_many :comments
+  has_many :comments, dependent: :destroy
 
   after_create :notify_all_users
 
@@ -22,8 +22,5 @@ private
 
 def notify_all_users
   NewPostNotiJob.perform_later(self)
-  # User.find_each do |user|
-  #   PostMailer.new_post_noti(user, self).deliver_now
-  # end
 end
 end
