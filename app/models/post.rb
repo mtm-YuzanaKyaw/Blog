@@ -8,9 +8,9 @@ class Post < ApplicationRecord
 
 
   require 'csv'
-def self.to_csv
- posts = all
- CSV.generate do |csv|
+  def self.to_csv
+  posts = all
+  CSV.generate do |csv|
    csv << column_names
    posts.each do |post|
      csv << post.attributes.values_at(*column_names)
@@ -21,8 +21,9 @@ end
 private
 
 def notify_all_users
-  User.find_each do |user|
-    PostMailer.new_post_noti(user, self).deliver_now
-  end
+  NewPostNotiJob.perform_later(self)
+  # User.find_each do |user|
+  #   PostMailer.new_post_noti(user, self).deliver_now
+  # end
 end
 end

@@ -1,4 +1,4 @@
-<%= form_with(url: import_csv_process_posts_path, local: true, multipart: true) do |form| %>
+<%= form_with(url: post_import_process_posts_path, local: true, multipart: true) do |form| %>
   <%= form.file_field :file %>
   <%= form.submit 'Import CSV' %>
 <% end %>

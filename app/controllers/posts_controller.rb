@@ -25,6 +25,19 @@ class PostsController < ApplicationController
     # Display the CSV upload form
   end
 
+  #csv fiel import with background process
+  def post_import_process
+    file = params[:file]
+
+    if file.present?
+      PostImportJob.perform_now(file)
+      redirect_to posts_path, notice: 'CSV imported successfully.'
+    else
+      redirect_to import_csv_posts_path, notice: 'Please select a file to import.'
+    end
+  end
+
+  # csv file import with action
   def import_csv_process
     file = params[:file]
 

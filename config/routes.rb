@@ -1,3 +1,4 @@
+require 'sidekiq/web'
 Rails.application.routes.draw do
   get 'myposts', to: 'posts#myposts'
 
@@ -18,7 +19,8 @@ Rails.application.routes.draw do
     collection do
       get 'export_csv'
       get 'import_csv'
-      post 'import_csv_process'
+      # post 'import_csv_process'
+      post 'post_import_process'
     end
   end
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
@@ -39,4 +41,6 @@ Rails.application.routes.draw do
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
+
+  mount Sidekiq::Web => '/sidekiq'
 end
