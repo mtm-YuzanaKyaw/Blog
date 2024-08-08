@@ -1,5 +1,3 @@
-require 'csv'
-
 class Post < ApplicationRecord
   belongs_to :user
   has_many :comments, dependent: :destroy
@@ -20,7 +18,10 @@ end
 
 private
 
-def notify_all_users
-  NewPostNotiJob.perform_later(self)
-end
+  def notify_all_users
+    id= self.id
+    NewPostNotiWorker.perform_async(id)
+
+    # NewPostNotiJob.perform_now(self)
+  end
 end

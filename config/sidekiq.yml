@@ -1,11 +1,21 @@
 :logfile: ./log/sidekiq.log
-:concurrency: 2
+:concurrency: 10
 staging:
- :concurrency: 2
+ :concurrency: 10
 develop:
- :concurrency: 2
+ :concurrency: 10
 :queues:
- - critical
  - default
  - mailers
+ - critical
  - low
+
+# :concurrency: 10
+# :queues:
+#   - default
+#   - mailers
+#   - critical
+# :redis:
+#   url: redis://localhost:6379/0
+#   namespace: sidekiq
+# :poll_interval: 10

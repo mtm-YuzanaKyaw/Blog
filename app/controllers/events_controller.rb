@@ -69,7 +69,7 @@ class EventsController < ApplicationController
       'start' => @start_time,
       'end' => @end_time
     }
-    byebug
+
     @event.update(event)
     g_event = @calendar.update_event(@calendar_id,@event_id,@google_event)
 

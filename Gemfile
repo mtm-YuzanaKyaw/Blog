@@ -53,7 +53,8 @@ gem 'google-api-client', require: 'google/apis/calendar_v3'
 gem 'omniauth-google-oauth2'
 gem 'sidekiq'
 gem 'sidekiq-scheduler'
-
+gem 'whenever'
+gem 'sidekiq-cron'
 
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
