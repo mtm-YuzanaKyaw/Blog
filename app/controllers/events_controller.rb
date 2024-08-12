@@ -32,6 +32,10 @@ class EventsController < ApplicationController
     @calendar_id = params[:calendar_id]
     @event_id = params[:event_id]
 
+    @event.start_date = @event.start.to_date
+    @event.start_time = @event.start.strftime("%H:%M")
+    @event.end_date = @event.end.to_date
+    @event.end_time = @event.end.strftime("%H:%M")
   end
 
   # POST /events or /events.json
@@ -58,19 +62,13 @@ class EventsController < ApplicationController
   def update
     @calendar_id = params[:calendar_id]
     @event_id = params[:event_id]
-    summary = params[:summary]
+
     @event = Event.find_by(google_event_id: params[:event_id])
 
     google_user
     get_google_event(params)
 
-    event = {
-      'summary' => summary,
-      'start' => @start_time,
-      'end' => @end_time
-    }
-
-    @event.update(event)
+    @event.update(event_params)
     g_event = @calendar.update_event(@calendar_id,@event_id,@google_event)
 
     redirect_to calendar_events_path(@calendar_id), notice: "Update Event Successfully"
@@ -120,23 +118,30 @@ class EventsController < ApplicationController
   end
 
   def get_google_event(params)
-    event_params = params.require(:event).permit(:summary, :calendar_id, :user_id, :start, :end)
 
-    @start_time = DateTime.new(
-      event_params['start(1i)'].to_i,  # Year
-      event_params['start(2i)'].to_i,  # Month
-      event_params['start(3i)'].to_i,  # Day
-      event_params['start(4i)'].to_i,  # Hour
-      event_params['start(5i)'].to_i   # Minute
-    )
+    event_params = params.require(:event).permit(:summary, :calendar_id, :user_id, :start_date, :start_time, :end_date, :end_time)
 
-    @end_time = DateTime.new(
-      event_params['end(1i)'].to_i,    # Year
-      event_params['end(2i)'].to_i,    # Month
-      event_params['end(3i)'].to_i,    # Day
-      event_params['end(4i)'].to_i,    # Hour
-      event_params['end(5i)'].to_i     # Minute
-    )
+    #get datetime date with datetime_select form
+    # @start_time = DateTime.new(
+    #   event_params['start(1i)'].to_i,  # Year
+    #   event_params['start(2i)'].to_i,  # Month
+    #   event_params['start(3i)'].to_i,  # Day
+    #   event_params['start(4i)'].to_i,  # Hour
+    #   event_params['start(5i)'].to_i   # Minute
+    # )
+
+    #get datetime date with date_field and time_field
+    @start_time = DateTime.parse("#{event_params['start_date']}T#{event_params['start_time']}").strftime('%Y-%m-%dT%H:%M:%S')
+    @end_time = DateTime.parse("#{event_params['end_date']}T#{event_params['end_time']}").strftime('%Y-%m-%dT%H:%M:%S')
+
+    #get datetime data with datetime_select form
+    # @end_time = DateTime.new(
+    #   event_params['end(1i)'].to_i,    # Year
+    #   event_params['end(2i)'].to_i,    # Month
+    #   event_params['end(3i)'].to_i,    # Day
+    #   event_params['end(4i)'].to_i,    # Hour
+    #   event_params['end(5i)'].to_i     # Minute
+    # )
 
     @google_event = Google::Apis::CalendarV3::Event.new(
       summary: event_params[:summary],

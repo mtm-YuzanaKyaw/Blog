@@ -1,35 +1,45 @@
-<h1>Editing event</h1>
+<div class="col-lg-8 offset-lg-2 col-md-10 col-sm-12 p-5 shadow">
+  <h1>Editing event</h1>
 
-<%= form_with model: @event, url: calendar_event_update_path(@calendar_id,@event_id), method: :put, local: true do |form| %> 
+  <%= form_with model: @event, url: calendar_event_update_path(@calendar_id,@event_id), method: :put, local: true do |form| %> 
 
-  <div>
-    <%= form.label :summary, style: "display: block", class: "form-label" %>
-    <%= form.text_field :summary, class:"form-control m-2" %>
-  </div>
+    <div>
+      <%= form.label :summary, style: "display: block", class: "form-label" %>
+      <%= form.text_field :summary, class:"form-control m-2" %>
+    </div>
   
-  <div class="form-group m-2">
-   <%= form.label :start, "Start Date:", calss:"form-label" %>
-   <%= form.datetime_select :start, class: "form-control" %>  
- </div>
+    <div class="form-group d-flex my-2">
+      <div class="col-3">
+        <%= form.label :start_date, "Start Date:", class:"form-label" %>
+        <%= form.date_field :start_date, class:"form-control " %>  
+      </div>
+      <div class="col-3">
+        <%= form.label :start_time, "Start Time:", class:"form-label" %>
+        <%= form.time_field :start_time, class:"form-control " %>
+      </div>
+      <div class="col-3">
+        <%= form.label :end_date, "End Date:", class:"form-label" %>
+        <%= form.date_field :end_date, class:"form-control" %>
+      </div>
+      <div class="col-3">
+        <%= form.label :end_time, "End Time:", class:"form-label" %>
+        <%= form.time_field :end_time, class:"form-control" %>
+      </div>
+    </div>
 
- <div class="form-group m-2">
-   <%= form.label :end, "End Date:", class:"form-label" %>
-   <%= form.datetime_select :end, class:"form-control" %> 
- </div>
+    <div>
+      <%= form.hidden_field :calendar_id %>
+    </div>
 
-  <div>
-    <%= form.hidden_field :calendar_id %>
-  </div>
+    <div>
+      <%= form.hidden_field :user_id, value: current_user.id %>
+    </div>
 
-  <div>
-    <%= form.hidden_field :user_id, value: current_user.id %>
-  </div>
+    <div>
+      <%= form.submit "Update", class:"btn btn-primary m-2" %>
+    </div>
+  <% end %>
 
-  <div>
-    <%= form.submit "Update", class:"btn btn-primary m-2" %>
-  </div>
-<% end %>
-
-<br>
+</div>
 
 

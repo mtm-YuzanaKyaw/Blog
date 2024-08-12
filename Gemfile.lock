@@ -131,6 +131,8 @@ GEM
       logger
     faraday-net_http (3.1.1)
       net-http
+    flatpickr_rails (1.1.0)
+      railties (>= 3.0)
     fugit (1.11.0)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
@@ -421,6 +423,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
+  flatpickr_rails
   google-api-client
   googleauth
   importmap-rails

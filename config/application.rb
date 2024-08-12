@@ -11,6 +11,8 @@ module Blog
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
 
+    config.time_zone = 'UTC'
+    config.active_record.default_timezone = :utc
     config.action_controller.allow_forgery_protection = true
 
     config.active_job.queue_adapter = :sidekiq

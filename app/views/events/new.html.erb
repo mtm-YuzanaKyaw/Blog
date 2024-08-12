@@ -1,41 +1,155 @@
-<h1>New event</h1>
 
-<%= form_with model: @event, url: create_event_path(@calendar_id), method: :post, local: true do |form| %> 
+<div class="col-lg-8 offset-lg-2 col-md-10 col-sm-12 shadow p-5">
+  <h1 class="align-center">New event</h1>
+  <%= form_with model: @event, url: create_event_path(@calendar_id), method: :post, local: true do |form| %> 
 
-  <div>
-    <%= form.label :summary, style: "display: block", class:"form-label" %>
-    <%= form.text_field :summary, class:"form-control m-2" %>
-  </div>
-  
-  <div class="form-group">
-   <%= form.label :start, "Start Date:", class:"form-label" %>
-   <%= form.datetime_select :start, class:"form-control m-2" %>  
- </div>
-
- <div class="form-group">
-   <%= form.label :end, "End Date:", class:"form-label" %>
-   <%= form.datetime_select :end, class:"form-control m-2" %> 
- </div>
-
-  <div>
-    <%= form.hidden_field :calendar_id, value: @calendar_id %>
-  </div>
-
-  <div>
-    <%= form.hidden_field :user_id, value:current_user.id %>
-  </div>
-
-  <div>
-    <%= form.submit class:"btn btn-primary m-2" %>
-  </div>
-<% end %>
+    <div class="form-group">
+      <%= form.label :summary, style: "display: block", class:"form-label" %>
+      <%= form.text_field :summary, class:"form-control m-2" %>
+    </div>
+    
+    <div class="form-group d-flex my-2">
+      <div class="col-3">
+        <%= form.label :start_date, "Start Date:", class:"form-label" %>
+        <%= form.date_field :start_date, class:"form-control " %>  
+      </div>
+      <div class="col-3">
+        <%= form.label :start_time, "Start Time:", class:"form-label" %>
+        <%= form.time_field :start_time, class:"form-control " %>
+      </div>
+      <div class="col-3">
+        <%= form.label :end_date, "End Date:", class:"form-label" %>
+        <%= form.date_field :end_date, class:"form-control" %>
+      </div>
+      <div class="col-3">
+        <%= form.label :end_time, "End Time:", class:"form-label" %>
+        <%= form.time_field :end_time, class:"form-control" %>
+      </div>
+    </div>
 
 
+    <div>
+      <%= form.hidden_field :calendar_id, value: @calendar_id %>
+    </div>
+
+    <div>
+      <%= form.hidden_field :user_id, value:current_user.id %>
+    </div>
+
+    <div>
+      <%= form.submit class:"btn btn-primary m-2" %>
+    </div>
+  <% end %>
 
 
-<br>
 
-<div>
+
+
   
 </div> 
 
+<script>
+var startDateField = $('#startDatePart');
+  var startTimeField = $('#startTimePart');
+  var endDateField = $('#endDatePart');
+  var endTimeField = $('#endTimePart');
+
+  function padToTwoDigits(number) {
+    return number.toString().padStart(2, '0');
+  }
+
+  function setStartTime() {
+    const now = new Date();
+
+    var min = now.getMinutes();
+
+    if (min > 0 && min < 5) {
+      now.setMinutes(15);
+    } else if (min > 5 && min < 20) {
+      now.setMinutes(30);
+    } else if (min > 20 && min < 35) {
+      now.setMinutes(45);
+    } else if (min > 35 && min < 50) {
+      now.setMinutes(60);
+    } else if (min > 50) {
+      now.setMinutes(75);
+    }
+
+    var startHours = padToTwoDigits(now.getHours());
+    var startMinutes = padToTwoDigits(now.getMinutes());
+    var formattedStartTime = `${startHours}:${startMinutes}`;
+
+    return formattedStartTime;
+  }
+
+  function addThirtyMinutes(startTime){
+    const time = startTime.split(":");
+
+    var endDateTime = new Date();
+    endDateTime.setHours(parseInt(time[0]));
+    endDateTime.setMinutes(parseInt(time[1]) + 30);
+
+    var endHours = padToTwoDigits(endDateTime.getHours());
+    var endMinutes = padToTwoDigits(endDateTime.getMinutes());
+    var formattedEndTime = `${endHours}:${endMinutes}`;
+
+    return formattedEndTime;
+  }
+
+  function updateEndDate() {
+    endDateField.val(startDateField.val())
+  }
+
+  function updateEndTime() {
+    endTimeField.val(addThirtyMinutes(startTimeField.val()));
+  }
+
+  startDateField.on('change', function() {
+    if (!endDateField.val() || endDateField.val() < startDateField.val()) {
+      updateEndDate();
+      updateEndTime();
+    }
+  })
+
+  startTimeField.on('change', function() {
+    if ((startDateField.val() == endDateField.val()) && (addThirtyMinutes(startTimeField.val()) > endTimeField.val())) {
+      updateEndTime();
+    }
+  })
+
+  if(!startDateField.val()) {
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = padToTwoDigits(now.getMonth() + 1);
+    var day = padToTwoDigits(now.getDate());
+    var formattedDate = `${year}-${month}-${day}`;
+
+    startDateField.val(formattedDate);
+    endDateField.val(formattedDate);
+  }
+
+  if(!startTimeField.val()) {
+    var formattedStartTime = setStartTime();
+
+    var formattedEndTime = addThirtyMinutes(formattedStartTime)
+
+    startTimeField.val(formattedStartTime)
+    endTimeField.val(formattedEndTime)
+  }
+
+  <% if flash[:errors].present? %>
+    $(document).ready(function() {
+      $('#guests').select2({
+        placeholder: "Select Guests",
+        allowClear: true
+      });
+    })
+  <% else %>
+    document.addEventListener('turbo:load', function () {
+      $('#guests').select2({
+        placeholder: "Select Guests",
+        allowClear: true
+      });
+    });
+  <% end %>
+</script>

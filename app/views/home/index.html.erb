@@ -1,2 +1,8 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<h1>Welcome From Blog</h1>
+
+<div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-12 d-grid gap-2">
+    <%= link_to "POST", posts_path, class:"btn btn-primary btn-lg"  %>
+    <%= link_to "CALENDAR", calendars_path, class:"btn btn-secondary btn-lg"  %>
+    <%= link_to "MY POST", myposts_path, class:"btn btn-info btn-lg"  %>
+</div>
+
