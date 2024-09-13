@@ -98,7 +98,9 @@ class PostsController < ApplicationController
   end
 
   def myposts
-    @posts = current_user.posts
+    user = User.find(current_user.id)
+    # @posts = current_user.posts
+    @posts = Post.find_by(user_id: user.id)
   end
   # POST /posts or /posts.json
   def create

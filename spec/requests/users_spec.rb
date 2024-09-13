@@ -62,9 +62,12 @@ RSpec.describe "Users", type: :request do
       updated_email = "updatedtesting@gmail.com"
       sign_in user
 
-      patch "/users", params: { user: {email: updated_email} }
+      patch "/users", params: { user: {email: updated_email, password:user.password} }
+      user.reload
 
-      expect(response).to redirect_to(root_path)
+      expect(user.email).to eq('updatetesting@gmail.com')
+      # expect(response).to have_http_status(:redirect)
+      # expect(response).to redirect_to(root_path)
 
     end
   end

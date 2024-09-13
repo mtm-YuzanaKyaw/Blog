@@ -50,11 +50,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_01_044304) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "google_token"
-    t.string "google_refresh_token"
-    t.string "name"
     t.string "uid"
-    t.string "provider"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

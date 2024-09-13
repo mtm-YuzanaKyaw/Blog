@@ -1,5 +1,6 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
+require 'database_cleaner/active_record'
 # require 'factory_bot_rails'
 # require 'support/factory_bot'
 ENV['RAILS_ENV'] ||= 'test'
@@ -7,6 +8,15 @@ require_relative '../config/environment'
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+
+require 'webmock/rspec'
+require 'vcr'
+
+VCR.configure do |config|
+  config.cassette_library_dir = 'spec/cassettes'
+  config.hook_into :webmock
+  config.configure_rspec_metadata!
+end
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -66,5 +76,13 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   config.include Devise::Test::IntegrationHelpers, type: :request
+  config.before(:each) do
+    WebMock.disable_net_connect!(allow_localhost: true)
+  end
 
+  config.around(:each) do |example|
+    VCR.use_cassette(example.metadata[:full_description]) do
+      example.call
+    end
+  end
 end

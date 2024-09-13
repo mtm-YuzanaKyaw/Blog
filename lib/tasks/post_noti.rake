@@ -20,4 +20,19 @@ namespace :emails do
 
   end
 
+  task send_comment_noti_email: :environment do
+    require 'faker'
+
+    comment = Comment.create!(
+      comment: Faker::Book.title,
+      post_id: 74,
+      user_id: 26
+    );
+    post = Post.find(comment.post_id);
+    user = User.find(post.user_id);
+
+    CommentMailer.new_comment_noti(user,comment).deliver_now
+
+  end
+
 end
