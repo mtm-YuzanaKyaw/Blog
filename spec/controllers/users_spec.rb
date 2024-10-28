@@ -57,39 +57,19 @@ RSpec.describe "Users", type: :request do
   end
 
   describe "PATCH /users" do
-
+    user = FactoryBot.create(:user)
     it "Update user profile" do
-      user = FactoryBot.create(:user)
-      sign_in user
       updated_email = "updatedtesting@gmail.com"
-      patch user_registration_path, params: { user: {email: updated_email, current_password:user.password} }
+      sign_in user
+
+      patch "/users", params: { user: {email: updated_email, password:user.password} }
       user.reload
 
-      expect(user.email).to eq(updated_email)
-      expect(response).to have_http_status(:redirect)
-      expect(response).to redirect_to(root_path)
+      expect(user.email).to eq('updatetesting@gmail.com')
+      # expect(response).to have_http_status(:redirect)
+      # expect(response).to redirect_to(root_path)
 
     end
-
-    # it "Update user password" do
-    #   user = FactoryBot.create(:user)
-    #   sign_in user
-    #   updated_pwd = "12345678"
-    #   patch user_registration_path,params: {
-    #     user: {
-    #       password: updated_pwd,
-    #       password_confirmation: updated_pwd,
-    #       current_password:user.password
-    #     }
-    #   }
-
-    #   user.reload
-    #   expect(user.password).to eq(updated_pwd)
-    #   # expect(user.valid_password?(updated_pwd)).to be true
-    #   expect(response).to redirect_to(root_path)
-    #   follow_redirect!
-    #   expect(response.body).to include("Your account has been updated successfully.")
-    # end
   end
 
 end

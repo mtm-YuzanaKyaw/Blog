@@ -59,6 +59,8 @@ gem 'sidekiq-scheduler'
 gem 'whenever'
 gem 'sidekiq-cron'
 gem 'flatpickr_rails'
+gem 'yard'
+gem 'kmt_test_gem', '~> 0.1.1'
 
 
 

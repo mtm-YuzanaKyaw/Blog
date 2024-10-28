@@ -198,6 +198,7 @@ GEM
       activesupport (>= 5.0.0)
     jwt (2.8.2)
       base64
+    kmt_test_gem (0.1.1)
     launchy (3.0.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
@@ -428,6 +429,7 @@ GEM
       chronic (>= 0.6.3)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    yard (0.9.37)
     zeitwerk (2.6.16)
 
 PLATFORMS
@@ -452,6 +454,7 @@ DEPENDENCIES
   googleauth
   importmap-rails
   jbuilder
+  kmt_test_gem (~> 0.1.1)
   letter_opener
   letter_opener_web
   omniauth
@@ -473,6 +476,7 @@ DEPENDENCIES
   web-console
   webmock
   whenever
+  yard
 
 RUBY VERSION
    ruby 3.3.4p94

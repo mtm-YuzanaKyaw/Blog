@@ -1,3 +1,5 @@
+require 'rubygems'
+require 'whenever'
 # Use this file to easily define all of your cron jobs.
 #
 # It's helpful, but not entirely necessary to understand cron before proceeding.
@@ -19,9 +21,9 @@
 
 # Learn more: http://github.com/javan/whenever
 
-# every 1.minute do
-#   rake 'emails:send_noti_emails'
-# end
+every 1.minute do
+  rake 'emails:send_comment_noti_email'
+end
 # post_noti:
 #   cron: "*/5 * * * *"
 #   class: "NewPostNotiJob"
